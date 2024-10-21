@@ -222,10 +222,10 @@ void CKDX_LightingGeo::BuildGeometryBuffers()
 	GeometryGenerator::MeshData geo;
 
 	GeometryGenerator geoGen;
-	//geoGen.CreateBox(1.0f, 1.0f, 1.0f, geo);
+	geoGen.CreateBox(10.0f, 10.0f, 10.0f, geo);
 	//geoGen.CreateSphere(1.0f, 16, 16, geo);  // slice : 가로 방향, stack :세로방향으로 몇등분할 것인지 나타내는것 
 
-	geoGen.CreateGrid(160.0f, 160.0f, 50, 50, geo);
+	// geoGen.CreateGrid(160.0f, 160.0f, 50, 50, geo);
 
 	// Cache the vertex offsets to each object in the concatenated vertex buffer.
 	mGeoVertexOffset = 0;

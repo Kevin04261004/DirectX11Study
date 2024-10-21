@@ -51,11 +51,10 @@ CKDX_TextureFilterWithDirectXTK::CKDX_TextureFilterWithDirectXTK(HINSTANCE hInst
 	mDirLights[0].Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 	mDirLights[0].Specular = XMFLOAT4(0.6f, 0.6f, 0.6f, 16.0f);
 	mDirLights[0].Direction = XMFLOAT3(0.707f, -0.707f, 0.0f);
-
-	mDirLights[0].Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
-	mDirLights[0].Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
-	mDirLights[0].Specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
-	mDirLights[0].Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	//mDirLights[0].Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	//mDirLights[0].Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	//mDirLights[0].Specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	//mDirLights[0].Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);
 
 	mDirLights[1].Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	mDirLights[1].Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);

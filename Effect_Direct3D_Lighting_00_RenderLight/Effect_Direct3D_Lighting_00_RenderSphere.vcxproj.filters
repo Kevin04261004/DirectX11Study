@@ -16,6 +16,9 @@
     <Filter Include="Common">
       <UniqueIdentifier>{13093a82-03ae-4f5c-8dba-ef6e027e9939}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FX">
+      <UniqueIdentifier>{27bfe40f-e12a-4c1d-adaa-be673f9be81b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -114,5 +117,10 @@
     <Image Include="Effect_Direct3D_Lighting_00_RenderSphere.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="FX\BasicLighting.fx">
+      <Filter>FX</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
