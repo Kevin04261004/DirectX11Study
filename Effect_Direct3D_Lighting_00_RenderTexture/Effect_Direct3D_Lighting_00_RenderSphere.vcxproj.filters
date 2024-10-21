@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{13093a82-03ae-4f5c-8dba-ef6e027e9939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FX">
+      <UniqueIdentifier>{cbc924a2-0e2a-42e0-87b6-219446472c8a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect_Direct3D_Texture00_TextureFilter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\CommonStates.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\DDSTextureLoader.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\DirectXHelpers.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\Effects.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\GamePad.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\GeometricPrimitive.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\GraphicsMemory.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\Keyboard.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\Model.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\Mouse.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\PostProcess.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\PrimitiveBatch.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\ScreenGrab.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\SimpleMath.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\SpriteBatch.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\SpriteFont.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\VertexTypes.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\WICTextureLoader.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\XboxDDSTextureLoader.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\Audio.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\BufferHelpers.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\dxerr.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\GameTimer.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\GeometryGenerator.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\LightHelper.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\MathHelper.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Waves.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dApp.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dUtil.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx11effect.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dxGlobal.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Effects.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect_Direct3D_Texture00_TextureFilter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\GameTimer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\GeometryGenerator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\LightHelper.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\MathHelper.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Waves.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\d3dApp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\d3dUtil.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\dxerr.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Effect_Direct3D_Lighting_00_RenderSphere.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Effect_Direct3D_Lighting_00_RenderSphere.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Common\Inc\SimpleMath.inl">
+      <Filter>Common</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="FX\Basic.fx">
+      <Filter>FX</Filter>
+    </FxCompile>
+    <FxCompile Include="FX\LightHelper.fx">
+      <Filter>FX</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
