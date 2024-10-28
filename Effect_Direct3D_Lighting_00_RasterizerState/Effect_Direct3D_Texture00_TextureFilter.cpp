@@ -52,10 +52,6 @@ CKDX_TextureFilterWithDirectXTK::CKDX_TextureFilterWithDirectXTK(HINSTANCE hInst
 	mDirLights[0].Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 	mDirLights[0].Specular = XMFLOAT4(0.6f, 0.6f, 0.6f, 16.0f);
 	mDirLights[0].Direction = XMFLOAT3(0.707f, -0.707f, 0.0f);
-	//mDirLights[0].Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
-	//mDirLights[0].Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
-	//mDirLights[0].Specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
-	//mDirLights[0].Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);
 
 	mDirLights[1].Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	mDirLights[1].Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -66,6 +62,8 @@ CKDX_TextureFilterWithDirectXTK::CKDX_TextureFilterWithDirectXTK(HINSTANCE hInst
 	mDirLights[2].Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	mDirLights[2].Specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	mDirLights[2].Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);
+
+	renderStateType = ERenderStateType::WireframeRS;
 }
 
 CKDX_TextureFilterWithDirectXTK::~CKDX_TextureFilterWithDirectXTK()
@@ -170,16 +168,9 @@ void CKDX_TextureFilterWithDirectXTK::DrawScene()
 		Effects::BasicFX->SetMaterial(mBoxMat); // 머티리얼 
 		Effects::BasicFX->SetDiffuseMap(mDiffuseMapSRV); // 텍스처
 
-		// md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
-		// md3dImmediateContext->RSSetState(RenderStates::CullRS);
-		// md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
-		// md3dImmediateContext->RSSetState(RenderStates::NoCullWireframeRS);
-
 		// 셰이더를 적용, 설정된 인덱스 버퍼에 따라 정육면체를 그림.
 		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
 		md3dImmediateContext->DrawIndexed(mBoxIndexCount, mBoxIndexOffset, mBoxVertexOffset);
-
-		md3dImmediateContext->RSSetState(0);
 	}
 
 	// 스왑체인을 통한 화면에 그리기.
@@ -194,9 +185,36 @@ void CKDX_TextureFilterWithDirectXTK::OnMouseDown(WPARAM btnState, int x, int y)
 	SetCapture(mhMainWnd);
 }
 
-void CKDX_TextureFilterWithDirectXTK::OnMouseUp(WPARAM btnState, int x, int y)
+void CKDX_TextureFilterWithDirectXTK::OnMouseLeftUp(WPARAM btnState, int x, int y)
 {
 	ReleaseCapture();
+}
+
+void CKDX_TextureFilterWithDirectXTK::OnMouseRightUp(WPARAM btnState, int x, int y)
+{
+	ReleaseCapture();
+	renderStateType = (ERenderStateType)((int)renderStateType + 1);
+	if (renderStateType == ERenderStateType::Last)
+	{
+		renderStateType = ERenderStateType::WireframeRS;
+	}
+	md3dImmediateContext->RSSetState(0);
+
+	switch (renderStateType)
+	{
+	case ERenderStateType::WireframeRS:
+		md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
+		break;
+	case ERenderStateType::CullRS:
+		md3dImmediateContext->RSSetState(RenderStates::CullRS);
+		break;
+	case ERenderStateType::NoCullRS:
+		md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
+		break;
+	case ERenderStateType::NoCullWireframeRS:
+		md3dImmediateContext->RSSetState(RenderStates::NoCullWireframeRS);
+		break;
+	}
 }
 
 void CKDX_TextureFilterWithDirectXTK::OnMouseMove(WPARAM btnState, int x, int y)

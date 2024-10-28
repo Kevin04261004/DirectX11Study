@@ -9,6 +9,7 @@
 #include "MathHelper.h"
 #include "LightHelper.h"
 #include "Effects.h"
+#include "RenderStates.h"
 #include "Vertex.h"
 
 class CKDX_TextureFilterWithDirectXTK : public D3DApp
@@ -23,7 +24,8 @@ public:
 	void DrawScene();
 
 	void OnMouseDown(WPARAM btnState, int x, int y);
-	void OnMouseUp(WPARAM btnState, int x, int y);
+	void OnMouseLeftUp(WPARAM btnState, int x, int y);
+	void OnMouseRightUp(WPARAM btnState, int x, int y);
 	void OnMouseMove(WPARAM btnState, int x, int y);
 
 private:
@@ -55,4 +57,6 @@ private:
 	float mRadius;
 
 	POINT mLastMousePos;
+
+	ERenderStateType renderStateType;
 };

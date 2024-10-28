@@ -9,6 +9,16 @@
 
 #include "d3dUtil.h"
 
+enum ERenderStateType
+{
+	WireframeRS,
+	NoCullWireframeRS,
+	NoCullRS,
+	CullRS,
+	Last
+};
+
+
 class RenderStates
 {
 public:
