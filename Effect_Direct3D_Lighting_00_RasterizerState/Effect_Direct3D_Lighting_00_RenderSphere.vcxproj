@@ -71,8 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(SolutionDir)common\libs\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(SolutionDir)common\;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)Common\;$(SolutionDir)Common\Inc\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -108,13 +107,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)common\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)common\libs\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;Effects11d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Common\Inc\;$(SolutionDir)Common\;$(SolutionDir)Common\libs</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;Effects11d.lib;d3dCompiler.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,20 +133,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="common\d3dApp.h" />
-    <ClInclude Include="common\d3dUtil.h" />
-    <ClInclude Include="common\d3dx11effect.h" />
-    <ClInclude Include="common\d3dxGlobal.h" />
-    <ClInclude Include="common\dxerr.h" />
-    <ClInclude Include="common\GameTimer.h" />
-    <ClInclude Include="common\GeometryGenerator.h" />
-    <ClInclude Include="common\LightHelper.h" />
-    <ClInclude Include="common\MathHelper.h" />
-    <ClInclude Include="common\Waves.h" />
+    <ClInclude Include="Common\d3dApp.h" />
+    <ClInclude Include="Common\d3dUtil.h" />
+    <ClInclude Include="Common\d3dx11effect.h" />
+    <ClInclude Include="Common\d3dxGlobal.h" />
+    <ClInclude Include="Common\dxerr.h" />
+    <ClInclude Include="Common\GameTimer.h" />
+    <ClInclude Include="Common\GeometryGenerator.h" />
+    <ClInclude Include="Common\Inc\Audio.h" />
+    <ClInclude Include="Common\Inc\BufferHelpers.h" />
+    <ClInclude Include="Common\Inc\CommonStates.h" />
+    <ClInclude Include="Common\Inc\DDSTextureLoader.h" />
+    <ClInclude Include="Common\Inc\DirectXHelpers.h" />
+    <ClInclude Include="Common\Inc\Effects.h" />
+    <ClInclude Include="Common\Inc\GamePad.h" />
+    <ClInclude Include="Common\Inc\GeometricPrimitive.h" />
+    <ClInclude Include="Common\Inc\GraphicsMemory.h" />
+    <ClInclude Include="Common\Inc\Keyboard.h" />
+    <ClInclude Include="Common\Inc\Model.h" />
+    <ClInclude Include="Common\Inc\Mouse.h" />
+    <ClInclude Include="Common\Inc\PostProcess.h" />
+    <ClInclude Include="Common\Inc\PrimitiveBatch.h" />
+    <ClInclude Include="Common\Inc\ScreenGrab.h" />
+    <ClInclude Include="Common\Inc\SimpleMath.h" />
+    <ClInclude Include="Common\Inc\SpriteBatch.h" />
+    <ClInclude Include="Common\Inc\SpriteFont.h" />
+    <ClInclude Include="Common\Inc\VertexTypes.h" />
+    <ClInclude Include="Common\Inc\WICTextureLoader.h" />
+    <ClInclude Include="Common\Inc\XboxDDSTextureLoader.h" />
+    <ClInclude Include="Common\LightHelper.h" />
+    <ClInclude Include="Common\MathHelper.h" />
+    <ClInclude Include="Common\Waves.h" />
     <ClInclude Include="Effects.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Effect_Direct3D_Lighting_00_RenderSphere.h" />
+    <ClInclude Include="Effect_Direct3D_Texture00_TextureFilter.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -156,18 +176,18 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="common\d3dApp.cpp" />
-    <ClCompile Include="common\d3dUtil.cpp" />
-    <ClCompile Include="common\dxerr.cpp" />
-    <ClCompile Include="common\GameTimer.cpp" />
-    <ClCompile Include="common\GeometryGenerator.cpp" />
-    <ClCompile Include="common\LightHelper.cpp" />
-    <ClCompile Include="common\MathHelper.cpp" />
-    <ClCompile Include="common\Waves.cpp" />
+    <ClCompile Include="Common\d3dApp.cpp" />
+    <ClCompile Include="Common\d3dUtil.cpp" />
+    <ClCompile Include="Common\dxerr.cpp" />
+    <ClCompile Include="Common\GameTimer.cpp" />
+    <ClCompile Include="Common\GeometryGenerator.cpp" />
+    <ClCompile Include="Common\LightHelper.cpp" />
+    <ClCompile Include="Common\MathHelper.cpp" />
+    <ClCompile Include="Common\Waves.cpp" />
     <ClCompile Include="Effects.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Effect_Direct3D_Lighting_00_RenderSphere.cpp" />
+    <ClCompile Include="Effect_Direct3D_Texture00_TextureFilter.cpp" />
     <ClCompile Include="Vertex.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -180,7 +200,19 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="FX\BasicLighting.fx" />
+    <None Include="Common\Inc\SimpleMath.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="FX\Basic.fx">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="FX\LightHelper.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

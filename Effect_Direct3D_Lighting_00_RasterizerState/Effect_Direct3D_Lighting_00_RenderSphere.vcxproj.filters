@@ -17,7 +17,7 @@
       <UniqueIdentifier>{13093a82-03ae-4f5c-8dba-ef6e027e9939}</UniqueIdentifier>
     </Filter>
     <Filter Include="FX">
-      <UniqueIdentifier>{27bfe40f-e12a-4c1d-adaa-be673f9be81b}</UniqueIdentifier>
+      <UniqueIdentifier>{cbc924a2-0e2a-42e0-87b6-219446472c8a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,79 +30,142 @@
     <ClInclude Include="Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Effect_Direct3D_Lighting_00_RenderSphere.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Effects.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="common\d3dApp.h">
+    <ClInclude Include="Effect_Direct3D_Texture00_TextureFilter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\CommonStates.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="common\d3dUtil.h">
+    <ClInclude Include="Common\Inc\DDSTextureLoader.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="common\d3dx11effect.h">
+    <ClInclude Include="Common\Inc\DirectXHelpers.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="common\d3dxGlobal.h">
+    <ClInclude Include="Common\Inc\Effects.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="common\dxerr.h">
+    <ClInclude Include="Common\Inc\GamePad.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="common\GameTimer.h">
+    <ClInclude Include="Common\Inc\GeometricPrimitive.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="common\GeometryGenerator.h">
+    <ClInclude Include="Common\Inc\GraphicsMemory.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="common\LightHelper.h">
+    <ClInclude Include="Common\Inc\Keyboard.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="common\MathHelper.h">
+    <ClInclude Include="Common\Inc\Model.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="common\Waves.h">
+    <ClInclude Include="Common\Inc\Mouse.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\PostProcess.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\PrimitiveBatch.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\ScreenGrab.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\SimpleMath.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\SpriteBatch.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\SpriteFont.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\VertexTypes.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\WICTextureLoader.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\XboxDDSTextureLoader.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\Audio.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Inc\BufferHelpers.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\dxerr.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\GameTimer.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\GeometryGenerator.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\LightHelper.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\MathHelper.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Waves.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dApp.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dUtil.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx11effect.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dxGlobal.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Effect_Direct3D_Lighting_00_RenderSphere.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Effects.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Vertex.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="common\d3dApp.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Effect_Direct3D_Texture00_TextureFilter.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="common\d3dUtil.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\GameTimer.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="common\dxerr.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\GeometryGenerator.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="common\GameTimer.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\LightHelper.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="common\GeometryGenerator.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\MathHelper.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="common\LightHelper.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\Waves.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="common\MathHelper.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\d3dApp.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="common\Waves.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\d3dUtil.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\dxerr.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,7 +182,15 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="FX\BasicLighting.fx">
+    <None Include="Common\Inc\SimpleMath.inl">
+      <Filter>Common</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="FX\Basic.fx">
+      <Filter>FX</Filter>
+    </FxCompile>
+    <FxCompile Include="FX\LightHelper.fx">
       <Filter>FX</Filter>
     </FxCompile>
   </ItemGroup>
