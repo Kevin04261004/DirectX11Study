@@ -132,6 +132,9 @@
     <ClInclude Include="Common\d3dxGlobal.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="RenderStates.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Effects.cpp">
@@ -165,6 +168,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Common\dxerr.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderStates.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

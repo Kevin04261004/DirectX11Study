@@ -169,6 +169,7 @@
     </ClInclude>
     <ClInclude Include="Effect_Direct3D_Texture00_TextureFilter.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="RenderStates.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Vertex.h">
@@ -188,6 +189,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Effect_Direct3D_Texture00_TextureFilter.cpp" />
+    <ClCompile Include="RenderStates.cpp" />
     <ClCompile Include="Vertex.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>

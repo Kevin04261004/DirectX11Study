@@ -4,6 +4,7 @@
 #pragma warning(disable : 4717)
 #include "framework.h"
 #include "Effect_Direct3D_Texture00_TextureFilter.h"
+#include "RenderStates.h"
 
 // WinMain 함수 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -75,6 +76,7 @@ CKDX_TextureFilterWithDirectXTK::~CKDX_TextureFilterWithDirectXTK()
 
 	Effects::DestroyAll();
 	InputLayouts::DestroyAll();
+	RenderStates::DestroyAll();
 }
 
 bool CKDX_TextureFilterWithDirectXTK::Init()
@@ -85,6 +87,7 @@ bool CKDX_TextureFilterWithDirectXTK::Init()
 	// Must init Effects first since InputLayouts depend on shader signatures.
 	Effects::InitAll(md3dDevice);
 	InputLayouts::InitAll(md3dDevice);
+	RenderStates::InitAll(md3dDevice);
 
 	// https://github.com/walbourn/directx-sdk-samples 에서 dds 파일 로더 부분 가지고 옴
 	HR(CreateWICTextureFromFile(md3dDevice, L"Resources/WoodCrateJPG.jpg", nullptr, &mDiffuseMapSRV));
@@ -167,9 +170,16 @@ void CKDX_TextureFilterWithDirectXTK::DrawScene()
 		Effects::BasicFX->SetMaterial(mBoxMat); // 머티리얼 
 		Effects::BasicFX->SetDiffuseMap(mDiffuseMapSRV); // 텍스처
 
+		// md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
+		// md3dImmediateContext->RSSetState(RenderStates::CullRS);
+		// md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
+		// md3dImmediateContext->RSSetState(RenderStates::NoCullWireframeRS);
+
 		// 셰이더를 적용, 설정된 인덱스 버퍼에 따라 정육면체를 그림.
 		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
 		md3dImmediateContext->DrawIndexed(mBoxIndexCount, mBoxIndexOffset, mBoxVertexOffset);
+
+		md3dImmediateContext->RSSetState(0);
 	}
 
 	// 스왑체인을 통한 화면에 그리기.
