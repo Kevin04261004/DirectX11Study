@@ -71,6 +71,11 @@ BasicEffect::BasicEffect(ID3D11Device* device, const std::wstring& filename)
 	Light1TexGeoTech = mFX->GetTechniqueByName("Light1TexGeo");
 	Light2TexGeoTech = mFX->GetTechniqueByName("Light2TexGeo");
 
+	TexGeoNormalTech = mFX->GetTechniqueByName("GeoNormal");
+	TexGeoNormal2Tech = mFX->GetTechniqueByName("GeoNormal2");
+
+	TexGeoExplodeTech = mFX->GetTechniqueByName("GeoExplode");
+
 	WorldViewProj     = mFX->GetVariableByName("gWorldViewProj")->AsMatrix();
 	World             = mFX->GetVariableByName("gWorld")->AsMatrix();
 	WorldInvTranspose = mFX->GetVariableByName("gWorldInvTranspose")->AsMatrix();
@@ -79,6 +84,7 @@ BasicEffect::BasicEffect(ID3D11Device* device, const std::wstring& filename)
 	DirLights         = mFX->GetVariableByName("gDirLights");
 	Mat               = mFX->GetVariableByName("gMaterial");
 	DiffuseMap        = mFX->GetVariableByName("gDiffuseMap")->AsShaderResource();
+	TimeVal			  = mFX->GetVariableByName("gTime")->AsScalar();
 }
 
 BasicEffect::~BasicEffect()

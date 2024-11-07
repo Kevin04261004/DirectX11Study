@@ -27,7 +27,6 @@ public:
 	void OnMouseDown(WPARAM btnState, int x, int y);
 	void OnMouseUp(WPARAM btnState, int x, int y);
 	void OnMouseMove(WPARAM btnState, int x, int y);
-	
 
 private:
 	void BuildGeometryBuffers();
@@ -55,6 +54,7 @@ private:
 
 	float mTheta;
 	float mPhi;
+	float mDeltaTime;
 	float mRadius;
 
 	POINT mLastMousePos;

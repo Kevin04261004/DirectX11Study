@@ -42,6 +42,7 @@ public:
 	void SetDirLights(const DirectionalLight* lights)   { DirLights->SetRawValue(lights, 0, 3*sizeof(DirectionalLight)); }
 	void SetMaterial(const Material& mat)               { Mat->SetRawValue(&mat, 0, sizeof(Material)); }
 	void SetDiffuseMap(ID3D11ShaderResourceView* tex)   { DiffuseMap->SetResource(tex); }
+	void SetTimeVal(float time)							{ TimeVal->SetRawValue(&time, 0, sizeof(float)); }
 
 	ID3DX11EffectTechnique* Light1Tech;
 	ID3DX11EffectTechnique* Light2Tech;
@@ -62,6 +63,13 @@ public:
 	ID3DX11EffectTechnique* Light1TexGeoTech;
 	ID3DX11EffectTechnique* Light2TexGeoTech;
 
+
+	ID3DX11EffectTechnique* TexGeoNormalTech;
+	ID3DX11EffectTechnique* TexGeoNormal2Tech;
+
+	ID3DX11EffectTechnique* TexGeoExplodeTech;
+
+
 	ID3DX11EffectMatrixVariable* WorldViewProj;
 	ID3DX11EffectMatrixVariable* World;
 	ID3DX11EffectMatrixVariable* WorldInvTranspose;
@@ -69,6 +77,8 @@ public:
 	ID3DX11EffectVectorVariable* EyePosW;
 	ID3DX11EffectVariable* DirLights;
 	ID3DX11EffectVariable* Mat;
+
+	ID3DX11EffectScalarVariable* TimeVal;
 
 	ID3DX11EffectShaderResourceVariable* DiffuseMap;
 };

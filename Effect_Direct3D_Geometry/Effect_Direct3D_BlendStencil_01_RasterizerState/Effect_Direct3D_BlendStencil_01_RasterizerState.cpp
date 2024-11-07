@@ -104,6 +104,8 @@ void CK_DX_RasterizerStateBox::UpdateScene(float dt)
 	float y = mRadius * cosf(mPhi);
 
 	mEyePosW = XMFLOAT3(x, y, z);
+	mDeltaTime += dt;
+	// Effects::BasicFX->SetTimeVal(mDeltaTime);
 
 	XMMATRIX rotateMat = XMMatrixRotationY(1.f * dt);
 	XMMATRIX mBoxMat = XMLoadFloat4x4(&mBoxWorld);
@@ -143,7 +145,9 @@ void CK_DX_RasterizerStateBox::DrawScene()
 	// Light1과 Light2에 대한 부분과 texture까지 처리하기 위해서 Light2TexTech 사용함 
 	//ID3DX11EffectTechnique* activeTech = Effects::BasicFX->Light2TexAlphaClipTech;
 	//ID3DX11EffectTechnique* activeTech = Effects::BasicFX->Light2TexTech;
-	ID3DX11EffectTechnique* activeTech = Effects::BasicFX->Light0TexGeoTech;
+	//ID3DX11EffectTechnique* activeTech = Effects::BasicFX->Light1TexGeoTech;
+	ID3DX11EffectTechnique* activeTech = Effects::BasicFX->TexGeoNormal2Tech;
+	//ID3DX11EffectTechnique* activeTech = Effects::BasicFX->TexGeoExplodeTech;
 	//ID3DX11EffectTechnique* activeTech = Effects::BasicFX->Light0TexTech;
 	//ID3DX11EffectTechnique* activeTech = Effects::BasicFX->Light1TexTech;
 	//ID3DX11EffectTechnique* activeTech = Effects::BasicFX->Light1Tech;
@@ -171,12 +175,46 @@ void CK_DX_RasterizerStateBox::DrawScene()
 
 		//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
 		//md3dImmediateContext->RSSetState(RenderStates::CullRS);
-		md3dImmediateContext->RSSetState(RenderStates::NoCullWireframeRS);
-		//md3dImmediateContext->RSSetState(RenderStates::NoCullRS);		
+		//md3dImmediateContext->RSSetState(RenderStates::NoCullWireframeRS);
+		md3dImmediateContext->RSSetState(RenderStates::NoCullRS);		
 
 		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
 
-		md3dImmediateContext->DrawIndexed(3, mBoxIndexOffset, mBoxVertexOffset);
+		md3dImmediateContext->DrawIndexed(mBoxIndexCount, mBoxIndexOffset, mBoxVertexOffset);
+
+		// Restore default render state.
+		md3dImmediateContext->RSSetState(0);
+	}
+
+
+	activeTech = Effects::BasicFX->TexGeoExplodeTech;
+
+	activeTech->GetDesc(&techDesc);
+	for (UINT p = 0; p < techDesc.Passes; ++p)
+	{
+		md3dImmediateContext->IASetVertexBuffers(0, 1, &mBoxVB, &stride, &offset);
+		md3dImmediateContext->IASetIndexBuffer(mBoxIB, DXGI_FORMAT_R32_UINT, 0);
+
+		// Draw the box.
+		XMMATRIX world = XMLoadFloat4x4(&mBoxWorld);
+		XMMATRIX worldInvTranspose = MathHelper::InverseTranspose(world);
+		XMMATRIX worldViewProj = world * view * proj;
+
+		Effects::BasicFX->SetWorld(world);
+		Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
+		Effects::BasicFX->SetWorldViewProj(worldViewProj);
+		Effects::BasicFX->SetTexTransform(XMLoadFloat4x4(&mTexTransform));
+		Effects::BasicFX->SetMaterial(mBoxMat);
+		Effects::BasicFX->SetDiffuseMap(mDiffuseMapSRV);
+
+		//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
+		//md3dImmediateContext->RSSetState(RenderStates::CullRS);
+		md3dImmediateContext->RSSetState(RenderStates::NoCullWireframeRS);
+		//md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
+
+		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
+
+		md3dImmediateContext->DrawIndexed(mBoxIndexCount, mBoxIndexOffset, mBoxVertexOffset);
 
 		// Restore default render state.
 		md3dImmediateContext->RSSetState(0);
