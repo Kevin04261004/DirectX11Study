@@ -204,90 +204,41 @@ void CK_DX_ComputeTexFilter::DrawScene()
 			Effects::BasicFX->SetDiffuseMap(mTextureSRV);
 		}
 
-
 		// 해당 pass에 d3d context의 설정을 적용 
 		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
 
 		// indexed로 렌더링 
 		md3dImmediateContext->DrawIndexed(36, 0, offset);
 
-		scalM = XMMatrixScaling(0.5f, 0.25f, 0.25f);
-		transM = XMMatrixTranslation(-0.75f, -0.625f, 0.375f);
-		finalM = scalM * transM;
-		XMStoreFloat4x4(&mBoxWorld, finalM);
-		// Draw the box. 
-		world = XMLoadFloat4x4(&mBoxWorld) * parentMatrix;
-		worldViewProj = world * view * proj;
-		worldViewProj = worldViewProj;
-		Effects::BasicFX->SetWorld(world);
-		Effects::BasicFX->SetWorldViewProj(worldViewProj);
-		if (mUseCS) {
-			Effects::BasicFX->SetDiffuseMap(mDestTextureView);
-		}
-		else {
-			Effects::BasicFX->SetDiffuseMap(mWheelTextureSRV);
-		}
-		// 해당 pass에 d3d context의 설정을 적용
-		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-		md3dImmediateContext->DrawIndexed(36, 0, 0);
+		XMMATRIX mt[4];
+		mt[0] = XMMatrixTranslation(-0.75f, -0.625f, 0.375f);
+		mt[1] = XMMatrixTranslation(-0.75f, -0.625f, -0.375f);
+		mt[2] = XMMatrixTranslation(0.75f, -0.625f, 0.375f);
+		mt[3] = XMMatrixTranslation(0.75f, -0.625f, -0.375f);
 
-		scalM = XMMatrixScaling(0.5f, 0.25f, 0.25f);
-		transM = XMMatrixTranslation(0.75f, -0.625f, 0.375f);
-		finalM = scalM * transM;
-		XMStoreFloat4x4(&mBoxWorld, finalM);
-		// Draw the box. 
-		world = XMLoadFloat4x4(&mBoxWorld) * parentMatrix;
-		worldViewProj = world * view * proj;
-		Effects::BasicFX->SetWorld(world);
-		Effects::BasicFX->SetWorldViewProj(worldViewProj);
-		if (mUseCS) {
-			Effects::BasicFX->SetDiffuseMap(mDestTextureView);
-		}
-		else {
-			Effects::BasicFX->SetDiffuseMap(mWheelTextureSRV);
-		}
-		// 해당 pass에 d3d context의 설정을 적용
-		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-		md3dImmediateContext->DrawIndexed(36, 0, 0);
+		for (int i = 0; i < 4; ++i)
+		{
+			scalM = XMMatrixScaling(0.5f, 0.25f, 0.25f);
+			transM = mt[i];
+			finalM = scalM * transM;
+			XMStoreFloat4x4(&mBoxWorld, finalM);
+			// Draw the box. 
+			world = XMLoadFloat4x4(&mBoxWorld) * parentMatrix;
+			worldViewProj = world * view * proj;
+			worldViewProj = worldViewProj;
+			Effects::BasicFX->SetWorld(world);
+			Effects::BasicFX->SetWorldViewProj(worldViewProj);
+			if (mUseCS) {
+				Effects::BasicFX->SetDiffuseMap(mDestTextureView);
+			}
+			else {
+				Effects::BasicFX->SetDiffuseMap(mWheelTextureSRV);
+			}
 
-
-		scalM = XMMatrixScaling(0.5f, 0.25f, 0.25f);
-		transM = XMMatrixTranslation(0.75f, -0.625f, -0.375f);
-		finalM = scalM * transM;
-		XMStoreFloat4x4(&mBoxWorld, finalM);
-		// Draw the box. 
-		world = XMLoadFloat4x4(&mBoxWorld) * parentMatrix;
-		worldViewProj = world * view * proj;
-		Effects::BasicFX->SetWorld(world);
-		Effects::BasicFX->SetWorldViewProj(worldViewProj);
-		if (mUseCS) {
-			Effects::BasicFX->SetDiffuseMap(mDestTextureView);
+			// 해당 pass에 d3d context의 설정을 적용
+			activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
+			md3dImmediateContext->DrawIndexed(36, 0, 0);
 		}
-		else {
-			Effects::BasicFX->SetDiffuseMap(mWheelTextureSRV);
-		}
-		// 해당 pass에 d3d context의 설정을 적용
-		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-		md3dImmediateContext->DrawIndexed(36, 0, 0);
-
-		scalM = XMMatrixScaling(0.5f, 0.25f, 0.25f);
-		transM = XMMatrixTranslation(-0.75f, -0.625f, -0.375f);
-		finalM = scalM * transM;
-		XMStoreFloat4x4(&mBoxWorld, finalM);
-		// Draw the box. 
-		world = XMLoadFloat4x4(&mBoxWorld) * parentMatrix;
-		worldViewProj = world * view * proj;
-		Effects::BasicFX->SetWorld(world);
-		Effects::BasicFX->SetWorldViewProj(worldViewProj);
-		if (mUseCS) {
-			Effects::BasicFX->SetDiffuseMap(mDestTextureView);
-		}
-		else {
-			Effects::BasicFX->SetDiffuseMap(mWheelTextureSRV);
-		}
-		// 해당 pass에 d3d context의 설정을 적용
-		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-		md3dImmediateContext->DrawIndexed(36, 0, 0);
 	}
 
 
