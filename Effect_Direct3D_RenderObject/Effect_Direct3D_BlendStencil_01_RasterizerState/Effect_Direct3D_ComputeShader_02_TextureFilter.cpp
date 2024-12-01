@@ -225,7 +225,6 @@ void CK_DX_ComputeTexFilter::DrawScene()
 			// Draw the box. 
 			world = XMLoadFloat4x4(&mBoxWorld) * parentMatrix;
 			worldViewProj = world * view * proj;
-			worldViewProj = worldViewProj;
 			Effects::BasicFX->SetWorld(world);
 			Effects::BasicFX->SetWorldViewProj(worldViewProj);
 			if (mUseCS) {
