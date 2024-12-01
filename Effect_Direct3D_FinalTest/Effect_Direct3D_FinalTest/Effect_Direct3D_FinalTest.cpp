@@ -83,6 +83,7 @@ CK_DX_ComputeTexFilter::~CK_DX_ComputeTexFilter()
 
 	Effects::DestroyAll();
 	InputLayouts::DestroyAll();
+	RenderStates::DestroyAll();
 }
 
 bool CK_DX_ComputeTexFilter::Init()
@@ -93,6 +94,7 @@ bool CK_DX_ComputeTexFilter::Init()
 	// Must init Effects first since InputLayouts depend on shader signatures.
 	Effects::InitAll(md3dDevice);
 	InputLayouts::InitAll(md3dDevice);
+	RenderStates::InitAll(md3dDevice);
 
 	BuildInBuffer();
 	BuildOutBuffer();
@@ -152,6 +154,30 @@ void CK_DX_ComputeTexFilter::UpdateScene(float dt)
 		mBoxPosition = XMMatrixMultiply(rotation, mBoxPosition);
 	}
 
+	if (GetAsyncKeyState(VK_NUMPAD1) & 0x8000) // 1
+	{
+		md3dImmediateContext->RSSetState(0);
+		md3dImmediateContext->RSSetState(RenderStates::CullRS);
+	}
+
+	if (GetAsyncKeyState(VK_NUMPAD2) & 0x8000) // 2
+	{
+		md3dImmediateContext->RSSetState(0);
+		md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
+	}
+
+	if (GetAsyncKeyState(VK_NUMPAD3) & 0x8000) // 3
+	{
+		md3dImmediateContext->RSSetState(0);
+		md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
+	}
+
+	if (GetAsyncKeyState(VK_NUMPAD4) & 0x8000) // 4
+	{
+		md3dImmediateContext->RSSetState(0);
+		md3dImmediateContext->RSSetState(RenderStates::NoCullWireframeRS);
+	}
+
 	UpdateCamera(dt);
 }
 
@@ -176,12 +202,10 @@ void CK_DX_ComputeTexFilter::UpdateCamera(float dt)
 
 void CK_DX_ComputeTexFilter::DrawScene()
 {
-	md3dImmediateContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&Colors::DimGray));
+	md3dImmediateContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&Colors::LightSteelBlue));
 	md3dImmediateContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	md3dImmediateContext->IASetInputLayout(InputLayouts::Basic32);
-
-	// draw triangle list 
 	md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	XMMATRIX finalM, transM, scalM;
@@ -194,7 +218,6 @@ void CK_DX_ComputeTexFilter::DrawScene()
 
 	// Set per frame constants.
 	ID3DX11EffectTechnique* activeTech = Effects::BasicFX->Light0TexTech;
-
 	D3DX11_TECHNIQUE_DESC techDesc;
 	activeTech->GetDesc(&techDesc);
 
@@ -204,7 +227,7 @@ void CK_DX_ComputeTexFilter::DrawScene()
 		/* Plane */
 		md3dImmediateContext->IASetVertexBuffers(0, 1, &mPlaneVB, &stride, &offset);
 		md3dImmediateContext->IASetIndexBuffer(mPlaneIB, DXGI_FORMAT_R32_UINT, 0);
-		scalM = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+		scalM = XMMatrixScaling(10.0f, 10.0f, 10.0f);
 		transM = mPlanePosition;
 		finalM = scalM * transM;
 		XMStoreFloat4x4(&mBoxWorld, finalM);
@@ -275,7 +298,6 @@ void CK_DX_ComputeTexFilter::DrawScene()
 			md3dImmediateContext->DrawIndexed(cylinderIndexSize, 0, 0);
 		}
 	}
-
 	HR(mSwapChain->Present(0, 0));
 }
 
@@ -306,7 +328,18 @@ void CK_DX_ComputeTexFilter::OnMouseMove(WPARAM btnState, int x, int y)
 		// Restrict the angle mPhi.
 		mPhi = MathHelper::Clamp(mPhi, 0.1f, MathHelper::Pi - 0.1f);
 	}
+	else if ((btnState & MK_RBUTTON) != 0)
+	{
+		// Make each pixel correspond to 0.01 unit in the scene.
+		float dx = 0.01f * static_cast<float>(x - mLastMousePos.x);
+		float dy = 0.01f * static_cast<float>(y - mLastMousePos.y);
 
+		// Update the camera radius based on input.
+		mRadius += dx - dy;
+
+		// Restrict the radius.
+		mRadius = MathHelper::Clamp(mRadius, 1.0f, 15.0f);
+	}
 
 	mLastMousePos.x = x;
 	mLastMousePos.y = y;
@@ -327,7 +360,7 @@ void CK_DX_ComputeTexFilter::BuildCrateGeometryBuffers()
 	planeIndexSize = plane.Indices.size();
 	planeVertexSize = plane.Vertices.size();
 
-	geoGen.CreateCylinder(1, 1, 1, 30, 30, cylinder);
+	geoGen.CreateCylinder(1, 1, 1, 30, 1, cylinder);
 	cylinderIndexSize = cylinder.Indices.size();
 	cylinderVertexSize = cylinder.Vertices.size();
 
@@ -379,6 +412,17 @@ void CK_DX_ComputeTexFilter::BuildCrateGeometryBuffers()
 		iinitData.pSysMem = &meshDatas[i].Indices[0];
 		HR(md3dDevice->CreateBuffer(&ibd, &iinitData, &*meshIndexBuffers[i]));
 	}
+	
+	//D3D11_SAMPLER_DESC sampleDesc;
+	//ZeroMemory(&sampleDesc, sizeof(sampleDesc));
+	//sampleDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	//sampleDesc.MaxAnisotropy = 8;
+	//sampleDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	//sampleDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+
+	//ID3D11SamplerState* samplerState = nullptr;
+	//md3dDevice->CreateSamplerState(&sampleDesc, &samplerState);
+	//md3dImmediateContext->PSSetSamplers(0, 1, &samplerState);
 }
 
 void CK_DX_ComputeTexFilter::BuildInBuffer()
