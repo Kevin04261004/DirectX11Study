@@ -154,29 +154,40 @@ void CK_DX_ComputeTexFilter::UpdateScene(float dt)
 		mBoxPosition = XMMatrixMultiply(rotation, mBoxPosition);
 	}
 
-	if (GetAsyncKeyState(VK_NUMPAD1) & 0x8000) // 1
+	if (GetAsyncKeyState('1') & 0x8000) // 1
 	{
 		md3dImmediateContext->RSSetState(0);
 		md3dImmediateContext->RSSetState(RenderStates::CullRS);
 	}
 
-	if (GetAsyncKeyState(VK_NUMPAD2) & 0x8000) // 2
+	if (GetAsyncKeyState('2') & 0x8000) // 2
 	{
 		md3dImmediateContext->RSSetState(0);
 		md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
 	}
 
-	if (GetAsyncKeyState(VK_NUMPAD3) & 0x8000) // 3
+	if (GetAsyncKeyState('3') & 0x8000) // 3
 	{
 		md3dImmediateContext->RSSetState(0);
 		md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
 	}
 
-	if (GetAsyncKeyState(VK_NUMPAD4) & 0x8000) // 4
+	if (GetAsyncKeyState('4') & 0x8000) // 4
 	{
 		md3dImmediateContext->RSSetState(0);
 		md3dImmediateContext->RSSetState(RenderStates::NoCullWireframeRS);
 	}
+
+	// 키가 현재 눌려있지 않은 상태 확인 (상위 비트가 0)
+	SHORT state = GetAsyncKeyState('Q');
+
+	bool isKeyReleasedNow = (state & 0x8000) == 0;
+	if (mQKeyPressed && isKeyReleasedNow) {
+		mUseCS = !mUseCS;
+		if (mUseCS) DoComputeWork();
+	}
+	// 현재 키의 상태 업데이트
+	mQKeyPressed = (state & 0x8000) != 0;
 
 	UpdateCamera(dt);
 }
@@ -227,10 +238,13 @@ void CK_DX_ComputeTexFilter::DrawScene()
 		/* Plane */
 		md3dImmediateContext->IASetVertexBuffers(0, 1, &mPlaneVB, &stride, &offset);
 		md3dImmediateContext->IASetIndexBuffer(mPlaneIB, DXGI_FORMAT_R32_UINT, 0);
+		
 		scalM = XMMatrixScaling(10.0f, 10.0f, 10.0f);
 		transM = mPlanePosition;
 		finalM = scalM * transM;
+		
 		XMStoreFloat4x4(&mBoxWorld, finalM);
+		
 		XMMATRIX world = XMLoadFloat4x4(&mBoxWorld);
 		XMMATRIX worldViewProj = world * view * proj;
 
@@ -261,7 +275,15 @@ void CK_DX_ComputeTexFilter::DrawScene()
 		Effects::BasicFX->SetWorldViewProj(worldViewProj);
 		Effects::BasicFX->SetTexTransform(XMMatrixIdentity());
 		Effects::BasicFX->SetMaterial(mBoxMat);
-		Effects::BasicFX->SetDiffuseMap(mTextureSRV);
+
+		if (!mUseCS)
+		{
+			Effects::BasicFX->SetDiffuseMap(mTextureSRV);
+		}
+		else
+		{
+			Effects::BasicFX->SetDiffuseMap(mDestTextureView);
+		}
 
 		// 해당 pass에 d3d context의 설정을 적용 
 		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
@@ -286,6 +308,7 @@ void CK_DX_ComputeTexFilter::DrawScene()
 			transM = mt[i] * parentMatrix;
 			finalM = scalM * rotation * transM;
 			XMStoreFloat4x4(&mBoxWorld, finalM);
+
 			// Draw the box. 
 			world = XMLoadFloat4x4(&mBoxWorld);
 			worldViewProj = world * view * proj;
@@ -298,6 +321,37 @@ void CK_DX_ComputeTexFilter::DrawScene()
 			md3dImmediateContext->DrawIndexed(cylinderIndexSize, 0, 0);
 		}
 	}
+
+
+	/* Draw Normal Line */
+	activeTech = Effects::BasicFX->VisibleNormalTech;
+	activeTech->GetDesc(&techDesc);
+	for (UINT p = 0; p < techDesc.Passes; ++p)
+	{
+		/* BOX */
+		md3dImmediateContext->IASetVertexBuffers(0, 1, &mBoxVB, &stride, &offset);
+		md3dImmediateContext->IASetIndexBuffer(mBoxIB, DXGI_FORMAT_R32_UINT, 0);
+		scalM = XMMatrixScaling(1.0f, 1.0f, 2.0f);
+		transM = mBoxPosition;
+		XMMATRIX parentMatrix = transM;
+		finalM = scalM * transM;
+		XMStoreFloat4x4(&mBoxWorld, finalM);
+		XMMATRIX world = XMLoadFloat4x4(&mBoxWorld);
+		XMMATRIX worldViewProj = world * view * proj;
+
+		Effects::BasicFX->SetWorld(world);
+		Effects::BasicFX->SetWorldViewProj(worldViewProj);
+		Effects::BasicFX->SetTexTransform(XMMatrixIdentity());
+		Effects::BasicFX->SetMaterial(mBoxMat);
+		Effects::BasicFX->SetDiffuseMap(mTextureSRV);
+
+		// 해당 pass에 d3d context의 설정을 적용 
+		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
+
+		// indexed로 렌더링 
+		md3dImmediateContext->DrawIndexed(boxIndexSize, 0, offset);
+	}
+
 	HR(mSwapChain->Present(0, 0));
 }
 
@@ -433,9 +487,9 @@ void CK_DX_ComputeTexFilter::BuildInBuffer()
 	ID3D11Texture2D* tempTexture;
 
 	// 해당 Texture를 우선 읽어 들인다.		
-	HR(CreateDDSTextureFromFile(md3dDevice, L"Textures/amazon.dds", (ID3D11Resource**)(&mSrcTexture), &mTextureSRV));
 	HR(CreateDDSTextureFromFile(md3dDevice, L"Textures/brick01.dds", (ID3D11Resource**)(&mSrcTexture), &mSecondTextureSRV));
 	HR(CreateDDSTextureFromFile(md3dDevice, L"Textures/grass.dds", (ID3D11Resource**)(&mSrcTexture), &mThirdTextureSRV));
+	HR(CreateDDSTextureFromFile(md3dDevice, L"Textures/amazon.dds", (ID3D11Resource**)(&mSrcTexture), &mTextureSRV));
 
 	D3D11_TEXTURE2D_DESC desc;
 	(mSrcTexture)->GetDesc(&desc);

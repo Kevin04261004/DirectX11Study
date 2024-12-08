@@ -77,7 +77,6 @@ private:
     
     POINT mLastMousePos;
 
-
     XMFLOAT4X4 mView;
     XMFLOAT4X4 mProj;
     XMFLOAT4X4 mBoxWorld;
@@ -87,4 +86,7 @@ private:
 
     XMMATRIX mBoxPosition;
     XMMATRIX mPlanePosition;
+
+    bool mUseCS;
+    bool mQKeyPressed;
 };

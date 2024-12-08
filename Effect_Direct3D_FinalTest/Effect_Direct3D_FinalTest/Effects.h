@@ -47,6 +47,7 @@ public:
 	void SetDiffuseMap(ID3D11ShaderResourceView* tex)   { DiffuseMap->SetResource(tex); }
 		
 	ID3DX11EffectTechnique* Light0TexTech;
+	ID3DX11EffectTechnique* VisibleNormalTech;
 
 	ID3DX11EffectMatrixVariable* WorldViewProj;
 	ID3DX11EffectMatrixVariable* World;

@@ -54,7 +54,7 @@ BasicEffect::BasicEffect(ID3D11Device* device, const std::wstring& filename)
 	: Effect(device, filename)
 {
 	Light0TexTech = mFX->GetTechniqueByName("Light0Tex");
-	
+	VisibleNormalTech = mFX->GetTechniqueByName("GeoNormal");
 	WorldViewProj = mFX->GetVariableByName("gWorldViewProj")->AsMatrix();
 	World = mFX->GetVariableByName("gWorld")->AsMatrix();
 	WorldInvTranspose = mFX->GetVariableByName("gWorldInvTranspose")->AsMatrix();

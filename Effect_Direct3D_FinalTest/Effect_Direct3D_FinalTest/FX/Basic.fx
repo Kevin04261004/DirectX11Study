@@ -37,6 +37,20 @@ SamplerState samAnisotropic
 	AddressV = WRAP;
 };
 
+struct GeoNormalOut
+{
+    float4 PosH : SV_POSITION;
+    float3 PosW : POSITION;
+};
+
+struct VertexToGeo
+{
+    float3 PosL : POSITION;
+    float3 NormalL : NORMAL;
+    float2 Tex : TEXCOORD;
+};
+
+
 struct VertexIn
 {
 	float3 PosL    : POSITION;
@@ -68,7 +82,52 @@ VertexOut VS(VertexIn vin)
 
 	return vout;
 }
- 
+
+// vertex shader & geometry shader
+VertexToGeo VSGeo(VertexIn vin)
+{
+    VertexToGeo vout;
+		
+    vout.PosL = vin.PosL;
+    vout.NormalL = vin.NormalL;
+	
+	// Output vertex attributes for interpolation across triangle.
+    vout.Tex = mul(float4(vin.Tex, 0.0f, 1.0f), gTexTransform).xy;
+
+    return vout;
+}
+
+[maxvertexcount(8)]
+void GSNormal(triangle VertexToGeo gin[3], inout LineStream<GeoNormalOut> lineStream)
+{
+    GeoNormalOut v1, v2;
+    float normallength = 0.3;
+
+    // 면의 중심을 계산합니다.
+    float3 baseline1 = (gin[2].PosL - gin[1].PosL);
+    float3 baseline2 = (gin[0].PosL - gin[1].PosL);
+    float3 faceNormal = normalize(cross(baseline1, baseline2));
+    float3 facePosL = (gin[0].PosL + gin[1].PosL + gin[2].PosL) / 3.0f; // 면의 중심 위치
+
+    // 면의 중심에서 노말을 시작합니다.
+    v1.PosW = mul(float4(facePosL, 1.0f), gWorld).xyz;
+    v1.PosH = mul(float4(facePosL, 1.0f), gWorldViewProj);
+    lineStream.Append(v1);
+
+    // 노말 방향으로 일정 길이만큼 이동한 위치를 설정합니다.
+    v2.PosW = mul(float4(facePosL + faceNormal * normallength, 1.0f), gWorld).xyz;
+    v2.PosH = mul(float4(facePosL + faceNormal * normallength, 1.0f), gWorldViewProj);
+    lineStream.Append(v2);
+
+    lineStream.RestartStrip();
+}
+
+ float4 PSNormal(GeoNormalOut pin) : SV_Target
+ {
+	return float4(1, 0, 0, 1);;
+ }
+
+
 float4 PS(VertexOut pin, uniform int gLightCount, uniform bool gUseTexure, uniform bool gAlphaClip) : SV_Target
 {
 	// Interpolating normal can unnormalize it, so normalize it.
@@ -240,5 +299,15 @@ technique11 Light3TexAlphaClip
         SetVertexShader( CompileShader( vs_5_0, VS() ) );
 		SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS(3, true, true) ) );
+    }
+}
+
+technique11 GeoNormal
+{
+    pass P0
+    {
+        SetVertexShader(CompileShader(vs_5_0, VSGeo()));
+        SetGeometryShader(CompileShader(gs_5_0, GSNormal()));
+        SetPixelShader(CompileShader(ps_5_0, PSNormal()));
     }
 }
