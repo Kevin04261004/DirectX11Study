@@ -71,6 +71,8 @@ BasicEffect::BasicEffect(ID3D11Device* device, const std::wstring& filename)
 	Light1TexGeoTech = mFX->GetTechniqueByName("Light1TexGeo");
 	Light2TexGeoTech = mFX->GetTechniqueByName("Light2TexGeo");
 
+	GeoOctahedronTech = mFX->GetTechniqueByName("GeoOctahedron");
+
 	TexGeoNormalTech = mFX->GetTechniqueByName("GeoNormal");
 	TexGeoNormal2Tech = mFX->GetTechniqueByName("GeoNormal2");
 

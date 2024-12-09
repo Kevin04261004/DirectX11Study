@@ -63,6 +63,7 @@ public:
 	ID3DX11EffectTechnique* Light1TexGeoTech;
 	ID3DX11EffectTechnique* Light2TexGeoTech;
 
+	ID3DX11EffectTechnique* GeoOctahedronTech;
 
 	ID3DX11EffectTechnique* TexGeoNormalTech;
 	ID3DX11EffectTechnique* TexGeoNormal2Tech;

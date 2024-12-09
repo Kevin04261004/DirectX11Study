@@ -83,6 +83,20 @@ struct GeoNormalOut
 };
 
 
+// vertex shader & geometry shader
+VertexToGeo VSGeo(VertexIn vin)
+{
+    VertexToGeo vout;
+		
+    vout.PosL = vin.PosL;
+    vout.NormalL = vin.NormalL;
+	
+	// Output vertex attributes for interpolation across triangle.
+    vout.Tex = mul(float4(vin.Tex, 0.0f, 1.0f), gTexTransform).xy;
+
+    return vout;
+}
+
 void Subdivide(VertexToGeo inVerts[3], out VertexToGeo outVerts[6])
 {
     VertexToGeo m[3];
@@ -128,27 +142,17 @@ void OutputSubdivision(VertexToGeo v[6], inout TriangleStream<GeoOut> triStream)
 	[unroll]
     for (int j = 0; j < 5; ++j)
     {
-        triStream.Append(gout[j]);
+        triStream.Append(gout[j]); // 0, 1, 2, 3, 4
+        // 0 1 2
+        // 1 3 2
+        // 2 3 4
     }
     triStream.RestartStrip();
-    triStream.Append(gout[1]);
-    triStream.Append(gout[5]);
-    triStream.Append(gout[3]);
+    triStream.Append(gout[1]); // 1
+    triStream.Append(gout[5]); // 5
+    triStream.Append(gout[3]); // 3
+    // 1 5 3
 };
-
-// vertex shader & geometry shader
-VertexToGeo VSGeo(VertexIn vin)
-{
-    VertexToGeo vout;
-		
-    vout.PosL = vin.PosL;
-    vout.NormalL = vin.NormalL;
-	
-	// Output vertex attributes for interpolation across triangle.
-    vout.Tex = mul(float4(vin.Tex, 0.0f, 1.0f), gTexTransform).xy;
-
-    return vout;
-}
 
 [maxvertexcount(8)]
 void GS(triangle VertexToGeo gin[3], inout TriangleStream<GeoOut> triStream)
@@ -227,6 +231,75 @@ void GSExplode(triangle VertexToGeo gin[3], inout TriangleStream<GeoOut> triStre
     triStream.Append(gout[1]);
     triStream.Append(gout[2]);
     triStream.RestartStrip();
+}
+
+[maxvertexcount(24)]
+void GSOctahedron(triangle VertexToGeo gin[3], inout TriangleStream<GeoOut> triStream)
+{
+    float center;
+    float edgeLength;
+    
+    float length01 = length(gin[1].PosL - gin[0].PosL);
+    float length12 = length(gin[1].PosL - gin[2].PosL);
+    float length20 = length(gin[2].PosL - gin[0].PosL);
+    
+    if (length01 < length12)
+    {
+        center = (gin[1].PosL + gin[2].PosL) / 2.0f;
+        edgeLength = length12;
+    }
+    else if (length12 < length20)
+    {
+        center = (gin[2].PosL + gin[0].PosL) / 2.0f;
+        edgeLength = length20;
+    }
+    else
+    {
+        center = (gin[0].PosL + gin[1].PosL) / 2.0f;
+        edgeLength = length01;
+    }
+    
+    // 정삼각형의 높이 계산
+    float3 heightValue = float3(0, edgeLength * 0.5f, 0);
+    float3 top = center + heightValue;
+    if (top.x == 0)
+    {
+        //top = center2 + height2;
+    }
+    float3 bottom = center - heightValue; // 아래쪽으로 높이 1 추가
+    if (top.x == 0)
+    {
+        //top = center2 - height2;
+    }
+    
+    // GeoOut 구조체 배열 생성
+    GeoOut gout[5];
+
+    // 기존 정점 및 중심의 Homogeneous Clip Space 변환
+    for (int i = 0; i < 3; ++i)
+    {
+        gout[i].PosH = mul(float4(gin[i].PosL, 1.0f), gWorldViewProj);
+    }
+    gout[3].PosH = mul(float4(top, 1.0f), gWorldViewProj); // 위쪽
+    gout[4].PosH = mul(float4(bottom, 1.0f), gWorldViewProj); // 아래쪽
+
+    // 위쪽 삼각형 생성
+    for (int i = 0; i < 3; ++i)
+    {
+        triStream.Append(gout[i]); // 삼각형 정점 1
+        triStream.Append(gout[3]); // 위쪽 꼭짓점
+        triStream.Append(gout[(i + 1) % 3]); // 삼각형 정점 2
+        triStream.RestartStrip();
+    }
+
+    // 아래쪽 삼각형 생성
+    for (int i = 0; i < 3; ++i)
+    {
+        triStream.Append(gout[i]); // 삼각형 정점 1
+        triStream.Append(gout[4]); // 아래쪽 꼭짓점
+        triStream.Append(gout[(i + 1) % 3]); // 삼각형 정점 2
+        triStream.RestartStrip();
+    }
 }
 
 float4 PSNormal(GeoNormalOut pin) : SV_Target
@@ -461,6 +534,16 @@ technique11 Light2TexGeo
         SetVertexShader(CompileShader(vs_5_0, VSGeo()));
         SetGeometryShader(CompileShader(gs_5_0, GS()));
         SetPixelShader(CompileShader(ps_5_0, PS(2, true, false)));
+    }
+}
+
+technique11 GeoOctahedron
+{
+    pass P0
+    {
+        SetVertexShader(CompileShader(vs_5_0, VSGeo()));
+        SetGeometryShader(CompileShader(gs_5_0, GSOctahedron()));
+        SetPixelShader(CompileShader(ps_5_0, PSNormal()));
     }
 }
 

@@ -178,6 +178,7 @@ void CK_DX_ComputeTexFilter::UpdateScene(float dt)
 		md3dImmediateContext->RSSetState(RenderStates::NoCullWireframeRS);
 	}
 
+
 	// 키가 현재 눌려있지 않은 상태 확인 (상위 비트가 0)
 	SHORT state = GetAsyncKeyState('Q');
 
@@ -321,7 +322,6 @@ void CK_DX_ComputeTexFilter::DrawScene()
 			md3dImmediateContext->DrawIndexed(cylinderIndexSize, 0, 0);
 		}
 	}
-
 
 	/* Draw Normal Line */
 	activeTech = Effects::BasicFX->VisibleNormalTech;
